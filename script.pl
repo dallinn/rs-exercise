@@ -13,26 +13,26 @@ sub main {
     my $self = shift;
     my $file;
 
-	if (@ARGV != 1) {
-		print STDERR "ERROR: Must be ran as the following:\n";
-		print "\t./script.pl FILE_TO_BE_READ\n";
-		print "\tExample: ./script.pl MDaemon-2017-11-16-all-2m.log/data\n";
-		exit;
-	} else {
-		$file = $ARGV[0] || die 'ERROR: please enter a file as argument.';
-	}
+    if (@ARGV != 1) {
+        print STDERR "ERROR: Must be ran as the following:\n";
+        print "\t./script.pl FILE_TO_BE_READ\n";
+        print "\tExample: ./script.pl MDaemon-2017-11-16-all-2m.log/data\n";
+        exit;
+    } else {
+        $file = $ARGV[0] || die 'ERROR: please enter a file as argument.';
+    }
 
     my @senders;
     my %auths;
 
-	if (-f $file) {
+    if (-f $file) {
         open(my $fh, $file) or die "ERROR: $file could not be opened.";
 
         my $email;
 
         # Read line by line, as opposed to storing in memory (large file)
         while (my $row = <$fh>) {
-            
+
             # These first two conditionals are for gathering users injecting authenticated mail
             # I'm not sure if you want both IMAP and SMTP. As of now this includes only SMTP
             if ($row =~ /Accepting SMTP connection from/) {
@@ -95,10 +95,9 @@ sub main {
             }
         }
 
-
         $self->handle_senders(@senders);
         $self->handle_auths(%auths);
-	};
+    };
 }
 
 
