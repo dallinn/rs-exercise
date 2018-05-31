@@ -41,10 +41,8 @@ sub main {
 
                 if (%auths && $ip) {
                     foreach my $user (keys %auths) {
-                        foreach my $auth_ip (@{$auths{$user}{ips}}) {
-                            if ($ip eq $auth_ip) {
-                                $auths{$user}{send_count}++;
-                            }
+                        if ($ip ~~ $auths{$user}{ips}) {
+                            $auths{$user}{send_count}++;
                         }
                     }
                 }
